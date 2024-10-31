@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import HistoryPossession from "../models/HistoryPossessions.model"
+import { Op } from "sequelize"
 
 // Funcion para crear una nueva posesion
 export const createHistoryPossessions = async (req: Request, res: Response) => {
@@ -16,6 +17,25 @@ export const createHistoryPossessions = async (req: Request, res: Response) => {
 export const getHistoryPossessions = async (req: Request, res: Response) => {
   try {
     const possessions = await HistoryPossession.findAll({
+      order: [
+        ['id', 'DESC']
+      ]
+    })
+    res.json({ data: possessions })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// Funcion para obtener todas las posesiones que hayan devuelto los libros
+export const getReturnedPossessions = async (req: Request, res: Response) => {
+  try {
+    const possessions = await HistoryPossession.findAll({
+      where: {
+        returnDate: {
+          [Op.ne]: null
+        }
+      },
       order: [
         ['id', 'DESC']
       ]

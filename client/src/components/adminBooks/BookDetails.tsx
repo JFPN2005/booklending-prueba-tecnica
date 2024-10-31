@@ -35,7 +35,10 @@ export default function BookDetails({ book }: BookDetailsProps) {
         <td className="p-3 text-sm text-gray-800 ">
           <button
             type="button"
-            onClick={() => navigate(location.pathname + `?viewCreatePossession=${book.name}`)}
+            onClick={() => {
+              const queryParams = isAvailable ? `?viewCreatePossession=${book.name}&bookId=${book.id}` :`/returnDate?viewAddReturnDate=${book.name}&bookId=${book.id}`;
+              navigate(location.pathname + queryParams);
+            }}
             className={`${isAvailable ? 'bg-green-500 py-1 rounded-lg text-white font-bold text-center w-full' : 'bg-fuchsia-500 py-1 rounded-lg text-white font-bold text-center w-full'}`}
           >
             {isAvailable ? 'Disponible' : 'En posesion'}

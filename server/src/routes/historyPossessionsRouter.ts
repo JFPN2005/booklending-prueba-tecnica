@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
 import { handleInputError } from "../middleware/validation";
-import { addReturnDate, createHistoryPossessions, getHistoryPossessions, getPossession } from "../handlers/historyPossession";
+import { addReturnDate, createHistoryPossessions, getHistoryPossessions, getPossession, getReturnedPossessions } from "../handlers/historyPossession";
 
 const historyPossessionsRouter = Router()
 
@@ -35,6 +35,9 @@ historyPossessionsRouter.get('/getPossession/:id',
   handleInputError,
   getPossession
 )
+
+// Ruta para obtener todas las posesiones que hayan devuelto los libros
+historyPossessionsRouter.get('/getReturnedPossessions', getReturnedPossessions)
 
 // Ruta para agregar una fecha de devolucion
 historyPossessionsRouter.patch('/addReturnDate/:id',

@@ -3,6 +3,7 @@ import { getBooks } from "../../../services/BookService";
 import type { Book } from "../../../types";
 import BookDetails from "../../../components/adminBooks/BookDetails";
 import CreateModalPossession from "../../../components/adminPossessions/CreateModalPossession";
+import AddModalReturnDate from "../../../components/adminPossessions/AddModalReturnDate";
 
 // Cargamos los libros antes que la interfaz
 export async function loader() {
@@ -52,6 +53,7 @@ export default function AdminBooksView() {
 
         {/* Modal para crear posesion */}
         <CreateModalPossession />
+        <AddModalReturnDate />
 
       </div>
     </>

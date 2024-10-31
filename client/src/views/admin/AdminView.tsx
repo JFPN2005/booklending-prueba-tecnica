@@ -14,7 +14,7 @@ export default function AdminView() {
               </div>
             </div>
           </Link>
-          <Link to="/admin/history" className="block group">
+          <Link to="/admin/historyPossessions" className="block group">
             <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out transform group-hover:-translate-y-1 group-hover:shadow-lg">
               <div className="p-6">
                 <h2 className="text-2xl font-semibold text-gray-800 mb-2">Historial de Posesiones</h2>

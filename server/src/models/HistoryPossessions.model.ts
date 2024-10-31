@@ -6,6 +6,11 @@ import { Column, DataType, Model, Table } from "sequelize-typescript";
 
 class HistoryPossession extends Model {
   @Column({
+    type: DataType.INTEGER,
+  })
+  declare id_book: number
+
+  @Column({
     type: DataType.STRING(100)
   })
   declare book: string

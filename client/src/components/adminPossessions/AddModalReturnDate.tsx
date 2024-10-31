@@ -1,39 +1,41 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Form, redirect, useLocation, useNavigate, type ActionFunctionArgs } from 'react-router-dom';
-import CreatePossessionForm from './CreatePossessionForm';
-import { createPossession } from '../../services/PossessionService';
-import { toast } from 'react-toastify';
+import { addReturnDate } from '../../services/PossessionService';
 import { updateAvailability } from '../../services/BookService';
+import AddReturnDateForm from './AddReturnDateForm';
 
-export async function action({request} : ActionFunctionArgs) {
+export async function action({request}: ActionFunctionArgs) {
   const data = Object.fromEntries(await request.formData())
-  await createPossession(data)
-
+  // Extraemos el libro de la URL
   const queryParams = new URLSearchParams(location.search)
   const bookId = queryParams.get('bookId')
-  if(bookId) {
-    await updateAvailability(+bookId)
-  }
 
-  toast.success("Posesion Agregada Correctamente")
+  await addReturnDate(+data.id, data.returnDate.toString())
+
+  if(bookId) {
+    await updateAvailability(parseInt(bookId))
+  } 
+
+
   return redirect('/admin/books')
 }
 
-export default function CreateModalPossession() {
+
+export default function AddModalReturnDate() {
 
   const navigate = useNavigate()
   const location = useLocation()
-  // Extraemos el libro
+  // Extraemos el libro de la URL
   const queryParams = new URLSearchParams(location.search)
   const bookId = queryParams.get('bookId')
-  const bookName = queryParams.get('viewCreatePossession')
+  const bookName = queryParams.get('viewAddReturnDate')
   const show = bookName ? true : false
 
   return (
     <>
       <Transition appear show={show} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => navigate(location.pathname, {replace: true})}>
+        <Dialog as="div" className="relative z-10" onClose={() => navigate('/admin/books')}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -61,21 +63,18 @@ export default function CreateModalPossession() {
                   <Dialog.Title
                     as="h3"
                     className="font-black text-4xl text-center text-slate-600 my-5"
-                  >Agregar Posesion
+                  >
+                    Agregar Fecha de Devolucion
                   </Dialog.Title>
                   <div className='my-5 space-y-3'>
 
                     <Form
-                      method='POST'
-                      action='/admin/book/newPossession'
+                      method='post'
+                      action='/admin/books/returnDate'
                     >
-
-                      <input
-                        type="hidden"
-                        name="id_book"
-                        value={bookId || ''}
-                      />
-                      <CreatePossessionForm 
+                      <input type="hidden" name="_method" value="PATCH" />
+                      <AddReturnDateForm
+                        bookId={bookId || ''}
                         book={bookName || ''}
                       />
 

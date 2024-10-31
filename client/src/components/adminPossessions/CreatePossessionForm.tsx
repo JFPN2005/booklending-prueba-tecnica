@@ -1,4 +1,4 @@
-export default function CreatePossessionForm({ book }: { book: string | null }) {
+export default function CreatePossessionForm({ book}: { book: string | null }) {
   return (
     <div className="flex flex-col gap-3">
       <label
